@@ -1,0 +1,31 @@
+{
+  "name": "battleships",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lknapp1888/battleships.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lknapp1888/battleships/issues"
+  },
+  "homepage": "https://github.com/lknapp1888/battleships#readme",
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.5.0",
+    "css-loader": "^6.7.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.5.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.76.1",
+    "webpack-cli": "^5.0.1"
+  }
+}
