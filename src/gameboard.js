@@ -39,4 +39,16 @@ export class Gameboard {
   receiveHit(coord) {
     this.board[coord].hit = true;
   }
+
+  fleetSunk() {
+    for (let i = 0; i < this.placedShips.length; i++) {
+      if (this.placedShips[i].isSunk()) {
+        continue;
+      }
+      if (!this.placedShips[i].isSunk()) {
+        return false;
+      }
+  }
+  return true;
+}
 }

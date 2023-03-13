@@ -64,4 +64,21 @@ describe('gameboard', () => {
         board.receiveHit(74)
         expect(board.board[74].hit).toBeTruthy()
     })
+
+    test('defines fleetSunk()', () => {
+        expect(typeof board.fleetSunk).toBe('function')
+    })
+
+    test('expect fleetSunk() to return boolean if ships exist and are sunk or not', ()=> {
+        board.placeShip(5, 4)
+        board.placeShip(1, 2)
+        expect(board.fleetSunk()).toBeFalsy()
+        board.placedShips[0].hit()
+        board.placedShips[0].hit()
+        board.placedShips[0].hit()
+        board.placedShips[0].hit()
+        board.placedShips[1].hit()
+        board.placedShips[1].hit()
+        expect(board.fleetSunk()).toBeTruthy()
+    })
 })
