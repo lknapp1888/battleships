@@ -32,8 +32,10 @@ export class Gameboard {
     while (coords.length > 0) {
         this.board[coords[0]].hasShip = true;
         this.board[coords[0]].ship = newShip;
+        newShip.updatePosition(coords[0])
         coords.shift()
     }
+    
     this.placedShips.push(newShip);
   }
   receiveHit(coord) {

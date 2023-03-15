@@ -7,6 +7,10 @@ describe('Player class', () => {
         playerOne = new Player('Lewis')
         playerTwo = new Player('Fraser')
     })
+    afterEach(() => {
+        // restore replaced property
+        jest.restoreAllMocks();
+      });
     test('name initialised when Player class called', () => {
         expect(playerOne.name).toBe('Lewis')
     })
@@ -27,9 +31,33 @@ describe('Player class', () => {
         expect(playerOne.targetCoords.length).toBe(99)
     })
     test('expect fireAtRandom() to call fire with int coord and opposition player param', () => {
-        //use mock to see if fire() is called
-        //use the same mock to see if param one is int
-        //use the same mock to see if param two is player.gameboard...
-        expect().toBe('failing now to act as reminder to test')
+        const mockFire = jest.spyOn(playerOne, 'fire')
+        playerOne.fireAtRandom(playerTwo.gameboard)
+        expect(mockFire).toHaveBeenCalled();
+        expect(mockFire.mock.calls[mockFire.mock.calls.length - 1][1]).toBe(playerTwo.gameboard);
+    })
+
+    describe('player placeship function', () => {
+        test('defines placeShip()', ()=> {
+            expect(typeof playerOne.placeShip).toBe('function')
+        })
+        test('expect placeShip to reduce targetCoord list by size 1', () => {
+            playerOne.placeShip(5)
+            expect(playerOne.shipList.length).toBe(4)
+            playerOne.placeShip(45)
+            expect(playerOne.shipList.length).toBe(3)
+        })
+        test('expect placeShip() to place ships on player gameboard', () => {
+            playerOne.placeShip(5)
+            playerOne.placeShip(54)
+            playerOne.placeShip(84)
+            expect(playerOne.gameboard.placedShips[0].length).toBe(5)
+            expect(playerOne.gameboard.placedShips[1].length).toBe(4)
+            expect(playerOne.gameboard.placedShips[2].length).toBe(3)
+        })
+        test('expect placeShip() to return undefined if player ship list empty', () => {
+            playerOne.shipList = []
+            expect(playerOne.placeShip(4)).toBe('ship list empty')
+        })
     })
 })

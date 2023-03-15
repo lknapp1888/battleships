@@ -1,7 +1,7 @@
 import { Player } from "./player";
 
-const game = {
-    user: null,
+export const game = {
+    user: new Player('Lewis'),
     ai: new Player('computer'),
     winner: null,
     setUser: function(name) {
@@ -12,11 +12,13 @@ const game = {
             this.user.fire(coord, this.ai.gameboard)
             if (this.ai.gameboard.fleetSunk()) {
                 this.setWinner(this.user)
+                return;
         }
+        this.compFire()
     },
     
-    compFire: function(coord) {
-        this.user.fire(coord, this.user.gameboard)
+    compFire: function() {
+        this.user.fireAtRandom(this.user.gameboard)
         if (this.user.gameboard.fleetSunk()) {
             this.setWinner(this.ai)
         }
