@@ -26,9 +26,14 @@ export class Player {
     this.fire(num, oppGameboard);
   }
 
-  placeShip(coord) {
+  placeShip(coord, axis) {
     if (!this.shipList[0]) {return 'ship list empty'}
-    this.gameboard.placeShip(coord, this.shipList[0].size)
+    this.gameboard.placeShip(coord, this.shipList[0].size, axis)
     this.shipList.shift();
+  }
+
+  getNextShip() {
+    if (!this.shipList[0]) {return 'ship list empty'}
+    return this.shipList[0];
   }
 }

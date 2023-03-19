@@ -38,6 +38,26 @@ export class Gameboard {
     
     this.placedShips.push(newShip);
   }
+
+  getPotentialCoords(start, len, axis = "horizontal") {
+    let coords = []
+    if (axis === "horizontal") {
+      if ((start % 10) + (len - 1) > 9) {return 'coordinates off grid'}
+    for (let i = 0; i < len; i++) {
+      if (this.board[start + i].hasShip === true) {return 'space occupied'}
+      coords.push(start + i)
+    }
+  }
+  if (axis === "vertical") {
+      if ((start + ((len * 10) - 10)  > 99)) {return 'coordinates off grid'}
+    for (let i = 0; i < len; i++) {
+      if (this.board[start + i * 10].hasShip === true) {return 'space occupied'}
+      coords.push(start + i * 10)
+    }
+  }
+  return coords;
+  }
+
   receiveHit(coord) {
     this.board[coord].hit = true;
   }

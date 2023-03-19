@@ -30,3 +30,11 @@ body {
 .aiSquare {
     background-color: rgb(80, 80, 240);
 }
+
+.shipSquare {
+    background-color: grey;
+}
+
+.potentialShip {
+    background-color: grey;
+}
