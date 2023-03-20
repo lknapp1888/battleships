@@ -60,6 +60,9 @@ export class Gameboard {
 
   receiveHit(coord) {
     this.board[coord].hit = true;
+    if(this.board[coord].ship !== null){
+      this.board[coord].ship.hit()
+    }
   }
 
   fleetSunk() {

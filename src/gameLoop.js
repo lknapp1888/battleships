@@ -1,4 +1,5 @@
 import { Player } from "./player";
+import { UI } from "./UI";
 
 export const game = {
     user: new Player('Lewis'),

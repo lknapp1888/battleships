@@ -2,6 +2,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .mainContainer {
@@ -31,10 +32,22 @@ body {
     background-color: rgb(80, 80, 240);
 }
 
+.aiSquare:hover {
+    background-color: brown;
+}
+
+.squareHit {
+    background-color: rgb(175, 175, 247);
+}
+
 .shipSquare {
     background-color: grey;
 }
 
 .potentialShip {
     background-color: grey;
+}
+
+.successfulHit {
+    background-color: red;
 }
