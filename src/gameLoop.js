@@ -1,8 +1,9 @@
 import { Player } from "./player";
 import { UI } from "./UI";
+import { gameHelpers } from "./gameHelpers";
 
 export const game = {
-    user: new Player('Lewis'),
+    user: new Player('Human player'),
     ai: new Player('computer'),
     winner: null,
     setUser: function(name) {
@@ -11,20 +12,25 @@ export const game = {
 
     playerFire: function(coord) {
             this.user.fire(coord, this.ai.gameboard)
-            if (this.ai.gameboard.fleetSunk()) {
-                this.setWinner(this.user)
-                return;
-        }
-        this.compFire()
+
+            gameHelpers.delay(2000).then(() => game.compFire());
     },
     
     compFire: function() {
+        if (this.winner !== null) {return}
         this.user.fireAtRandom(this.user.gameboard)
-        if (this.user.gameboard.fleetSunk()) {
-            this.setWinner(this.ai)
-        }
+
     },
-    setWinner: function (user) {
-        this.winner = user;
+
+    checkWinner() {
+        if (this.ai.gameboard.fleetSunk()) {
+            this.winner = this.user;
+            UI.gameWonMessage()
+            return;
+         }
+         if (this.user.gameboard.fleetSunk()) {
+            this.winner = this.ai;
+            UI.gameWonMessage()
+        }
     }
 }

@@ -28,5 +28,9 @@ export const gameHelpers = {
             array[randomIndex], array[currentIndex]];
         }
         return array;
+      },
+
+      delay(time) {
+        return new Promise(resolve => setTimeout(resolve, time));
       }
 }

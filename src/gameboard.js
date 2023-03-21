@@ -35,7 +35,6 @@ export class Gameboard {
         newShip.updatePosition(coords[0])
         coords.shift()
     }
-    
     this.placedShips.push(newShip);
   }
 
