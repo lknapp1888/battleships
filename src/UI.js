@@ -1,9 +1,20 @@
 import { game } from "./gameLoop";
+import { Player } from "./player";
 
 export const UI = {
   loadGrids: function () {
     const mainContainer = document.querySelector(".mainContainer");
     const infoContainer = document.querySelector('.userInfoContainer')
+    while (mainContainer.lastChild) {
+      mainContainer.removeChild(mainContainer.lastChild)
+    }
+    while (infoContainer.lastChild) {
+      infoContainer.removeChild(infoContainer.lastChild)
+    }
+    const leftContainer = document.createElement('div')
+    const rightContainer = document.createElement('div')
+    leftContainer.classList.add('leftContainer')
+    rightContainer.classList.add('rightContainer')
     const userGrid = document.createElement("div");
     const aiGrid = document.createElement("div");
     userGrid.classList.add("grid");
@@ -26,16 +37,29 @@ export const UI = {
     }
 
     const axisBtn = document.createElement('button')
+    const resetBtn = document.createElement('button')
+    const userHeading = document.createElement('h2')
+    const aiHeading = document.createElement('h2')
+    userHeading.innerText = 'user'
+    aiHeading.innerText = 'computer'
     const userInfo = document.createElement('p')
     axisBtn.classList.add('axisBtn')
-    axisBtn.innerText = 'vertical';
+    axisBtn.innerText = 'y';
+    resetBtn.classList.add('resetBtn')
+    resetBtn.innerText = 'reset'
     userInfo.classList.add('userInfo')
     userInfo.innerText = 'Place your aircraft carrier (5) on the grid'
-    mainContainer.appendChild(axisBtn)
+    mainContainer.appendChild(leftContainer)
+    mainContainer.appendChild(rightContainer)
+    leftContainer.appendChild(userHeading)
+    leftContainer.appendChild(userGrid)
+    leftContainer.appendChild(axisBtn)
     infoContainer.appendChild(userInfo)
-    mainContainer.appendChild(userGrid);
-    mainContainer.appendChild(aiGrid);
+    rightContainer.appendChild(aiHeading)
+    rightContainer.appendChild(aiGrid);
+    rightContainer.appendChild(resetBtn);
     this.initAxisBtn()
+    this.initResetBtn()
   },
 
   initShipInput: function () {
@@ -46,7 +70,9 @@ export const UI = {
         e.target.classList[2][11]
           ? (coord = parseInt(e.target.classList[2][10] + e.target.classList[2][11]))
           : (coord = parseInt(e.target.classList[2][10]));
-        game.user.placeShip(coord, this.currAxis)
+          const potentialCoords = game.user.gameboard.getPotentialCoords(coord, game.user.shipList[0].size, this.currAxis)
+          if (typeof potentialCoords !== 'object') {return}
+          game.user.placeShip(coord, this.currAxis)
         this.addUserShipToGrid()
       });
     }
@@ -108,12 +134,29 @@ export const UI = {
     axisBtn.addEventListener('click', () => {
       if (this.currAxis === 'horizontal') {
         this.currAxis = 'vertical'
-        axisBtn.innerText = 'horizontal'
+        axisBtn.innerText = 'x'
         return
       }
       this.currAxis ='horizontal'
-      axisBtn.innerText = 'vertical'
+      axisBtn.innerText = 'y'
     })
+  },
+
+  initResetBtn: function () {
+    const resetBtn = document.querySelector('.resetBtn')
+    resetBtn.addEventListener('click', ()=> {
+    game.user = new Player('Human Player')
+    game.ai = new Player('computer')
+    game.winner = null;
+    this.loadGrids()
+    this.initShipInput()
+    this.initSquareHover()
+    game.ai.placeShipsRandomly()
+    this.initAiSquareEventListener()
+    this.currAxis = 'horizontal'
+      console.log('received')
+    })
+
   },
 
   initAiSquareEventListener: function () {
@@ -148,6 +191,7 @@ export const UI = {
   userSquareReceiveHit(coord) {
     const square = document.querySelector(`.userSquare${coord}`)
     const userInfo = document.querySelector('.userInfo')
+    square.innerText = 'x'
     if (game.user.gameboard.board[coord].hit) {
       square.classList.add('squareHit')
       userInfo.innerText = `${game.ai.name} fires and misses. Take your shot.`
